@@ -49,11 +49,6 @@ Rails.application.routes.draw do
   # DELETE
   get "/delete_photo/:id", :controller => "photos", :action => "destroy"
 
-  # users
-  # READ
-  get "/users", :controller => "users", :action => "index"
-  get "/users/:id", :controller => "users", :action => "show"
-
   #------------------------------
 
   devise_for :users
@@ -62,6 +57,10 @@ Rails.application.routes.draw do
 
   root 'photos#index'
 
+  # users
+  # READ
+  get "/users", :controller => "users", :action => "index"
+  get "/users/:id", :controller => "users", :action => "show"
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 
