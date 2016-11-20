@@ -49,6 +49,10 @@ Rails.application.routes.draw do
   # DELETE
   get "/delete_photo/:id", :controller => "photos", :action => "destroy"
 
+  # my likes
+  # READ
+  get "/my_likes", :controller => "my_likes", :action => "index"
+
   #------------------------------
 
   devise_for :users

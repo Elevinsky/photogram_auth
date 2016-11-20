@@ -1,0 +1,9 @@
+<div class="row">
+  <div class="col-md-12">
+  <% @user.likes.each do |like| %>
+      <div><a href="/photos/<%= like.photo.id %>">
+          <img src="<%= like.photo.image %>"></a>
+      <% end %>
+    </table>
+  </div>
+</div>
