@@ -48,6 +48,12 @@ Rails.application.routes.draw do
 
   # DELETE
   get "/delete_photo/:id", :controller => "photos", :action => "destroy"
+
+  # users
+  # READ
+  get "/users", :controller => "users", :action => "index"
+  get "/users/:id", :controller => "users", :action => "show"
+
   #------------------------------
 
   devise_for :users
