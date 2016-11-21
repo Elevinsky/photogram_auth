@@ -11,7 +11,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a href="/users/<%=photo.user_id%>"> <%= photo.user_id %></a>
+          <a href="/users/<%=photo.user_id%>"> <%= photo.user.username %></a>
           <small><%=time_ago_in_words(photo.created_at)%> ago</small></h3></div>
       <div class="panel-body">
         <a href="/photos/<%= photo.id %>"><img src="<%= photo.image %>" class="img-responsive"></a>
@@ -44,20 +44,21 @@
             <small class="text muted"><%= photo.fans.pluck(:username).to_sentence %> like this</small>
             <% end %>
           </form>
-
         <% end %>
-        </div>
           <ul class="media-list">
             <li class="media">
               <div class="media-body">
-                <h6 class="media-heading"><%= photo.caption %></h6>
+                <h6 class="media-heading"><a href="/users/<%=photo.user_id%>"> <%= photo.user.username %></a>
+                <small><%=time_ago_in_words(photo.created_at)%> ago</small></h3></div>
+                <div>
+                  <%= photo.caption %></h6>
               </div>
             </li>
             <% photo.comments.each do |comment| %>
             <li class="media">
               <div class="media-body">
-                <h6 class="media-heading"><%= comment.body %></h6>
-              </div>
+                <h6 class="media-heading"><a href="/users/<%=comment.user.id%>"> <%= comment.user.username %></a>
+                <small><%=time_ago_in_words(comment.created_at)%> ago</small></h3></div><%= comment.body %></h6>
             </li>
             <% end %>
             <li class="media">
