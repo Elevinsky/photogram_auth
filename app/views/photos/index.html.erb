@@ -1,3 +1,4 @@
+<%= current_user.id %>
 <div class="container">
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
@@ -12,28 +13,45 @@
       <div class="panel-heading">
         <h3 class="panel-title">
           <a href="/users/<%=photo.user_id%>"> <%= photo.user_id %></a>
-          <small>time_ago_in_words(photo.created_a)</small></h3></div>
+          <small><%=time_ago_in_words(photo.created_at)%></small></h3></div>
       <div class="panel-body">
-        <a href="/photo/<%= photo.id %>"><img src="<%= photo.image %>" class="img-responsive"></a>
-        <form action="/create_like" method="post">
-          <!-- Hidden input for authenticity token to protect from forgery -->
-          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+        <a href="/photos/<%= photo.id %>"><img src="<%= photo.image %>" class="img-responsive"></a>
 
-          <!-- Label and input for user_id -->
-            <input type="hidden" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= current_user %>">
-          </div>
 
           <!-- Label and input for photo_id -->
+          <% if photo.fans.pluck(:id).include? current_user.id %>
+          <a href="/users/<%=photo.user_id%>"> <%= photo.user_id %></a>
+          <input type="hidden" id="photo_id" name="photo_id" placeholder="Photo" class="form-control" value="<%= photo.id %>">
+          <button class="btn btn-link"><i class="fa fa-heart" aria-hidden="true"></i></button>
+          <small class="text muted">you like this</small>
+          <% else %>
+          <form action="/create_like" method="post">
+            <!-- Hidden input for authenticity token to protect from forgery -->
+            <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+            <!-- Label and input for user_id -->
+              <input type="hidden" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= current_user.id %>">
+
             <input type="hidden" id="photo_id" name="photo_id" placeholder="Photo" class="form-control" value="<%= photo.id %>">
-            <button class="btn btn-link"><i class="fa fa-heart" aria-hidden="true"></i></button>
+            <button class="btn btn-link"><i class="fa fa-heart-o" aria-hidden="true"></i></button>
             <small class="text muted">like this</small>
           </form>
+
+        <% end %>
+        </div>
           <ul class="media-list">
             <li class="media">
               <div class="media-body">
                 <h6 class="media-heading"><%= photo.caption %></h6>
               </div>
             </li>
+            <% photo.comments.each do |comment| %>
+            <li class="media">
+              <div class="media-body">
+                <h6 class="media-heading"><%= comment.body %></h6>
+              </div>
+            </li>
+            <% end %>
             <li class="media">
               <div class="media-body">
                 <form action="/create_comment" method="post">
