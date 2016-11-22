@@ -1,6 +1,7 @@
 class MyLikesController < ApplicationController
   def index
-    @user = User.find(current_user)
+    @photos = Photo.all
+    @comment = Comment.new
 
     render("my_likes/index.html.erb")
   end
